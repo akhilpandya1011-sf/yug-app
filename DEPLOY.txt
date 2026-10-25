@@ -1,0 +1,86 @@
+PUT THE YUG APP ON A FREE PUBLIC SERVER (Render.com)
+====================================================
+Result: a link like  https://yug-creation.onrender.com  that works from any phone
+anywhere, over HTTPS, so traders can also "Add to Home screen".
+Cost: Rs 0. No credit card. About 20 minutes once.
+
+WHAT TO EXPECT ON THE FREE PLAN
+-------------------------------
+- Free web services go to sleep after ~15 minutes with no visitors. The next
+  visitor waits 30-60 seconds while it wakes up. See "Keep it awake" below.
+- The disk is wiped when the service sleeps or redeploys, so data.json
+  (orders, new designs, uploaded photos, changed passwords) is lost and the
+  app starts again from the 16 Oct stock figures. Fine for a pilot/demo;
+  not fine for real daily use. The real app on Supabase fixes this.
+- The free plan gives 750 hours a month, enough for one app running 24x7.
+
+STEP 1  PUT THE CODE ON GITHUB (10 min)
+---------------------------------------
+1. Go to https://github.com and create a free account (if you have none).
+2. Click "+" (top right) -> "New repository".
+   Name: yug-app   Visibility: Private   -> Create repository.
+3. On the new empty repo page click "uploading an existing file".
+4. In Windows Explorer open your  yug-live  folder, select EVERYTHING inside it
+   (server.js, seed.js, package.json, start.bat, README.txt, DEPLOY.txt,
+   .gitignore and the public folder) and drag it onto the GitHub page.
+   Do NOT include data.json if it exists.
+   Chrome lets you drag the  public  folder itself; the img files inside come with it.
+5. Wait for all files to upload, then click "Commit changes".
+   Check that  public/img  shows about 30 photos in the repo.
+
+STEP 2  CREATE THE FREE SERVER ON RENDER (10 min)
+-------------------------------------------------
+1. Go to https://render.com -> Get Started -> sign up with your GitHub account.
+2. Click "New +" -> "Web Service".
+3. Connect your GitHub, pick the  yug-app  repository.
+4. Fill in:
+     Name:            yug-creation      (becomes yug-creation.onrender.com if free)
+     Region:          Singapore          (closest to India)
+     Branch:          main
+     Runtime:         Node
+     Build Command:   (leave empty, or type:  echo skip )
+     Start Command:   node server.js
+     Instance Type:   Free
+5. Click "Create Web Service". Wait 2-3 minutes while it deploys.
+   The log should end with "Yug Creation live test server is running."
+6. Open the link Render shows at the top (https://yug-creation.onrender.com).
+   The login screen appears. Done.
+
+STEP 3  SEND LOGINS ON WHATSAPP
+-------------------------------
+Send each person only their own line, never the whole list:
+   Chirag (Owner):   https://yug-creation.onrender.com   ID: Owner    Password: Owner@123
+   Office:           ...                                 ID: Office   Password: Office@123
+   Godown:           ...                                 ID: GD       Password: GD@123
+   Ambica:           ...                                 ID: Ambica   Password: Ambica@123
+   Mahalaxmi:        ...                                 ID: Maha     Password: Maha@123
+Tell them: open in Chrome, then  (three dots) -> Add to Home screen.
+
+KEEP IT AWAKE (optional, 3 min)
+-------------------------------
+So the app answers instantly and data is not wiped by sleeping:
+1. Go to https://cron-job.org (free) or https://uptimerobot.com (free).
+2. Create a job/monitor that opens  https://yug-creation.onrender.com/manifest.webmanifest
+   every 10 minutes.
+Data is still lost when Render redeploys (each time you change the code),
+so take a screenshot of anything important before pushing changes.
+
+UPDATING THE APP LATER
+----------------------
+Upload the changed file(s) to the same GitHub repo (open the file -> pencil icon
+-> paste -> Commit, or drag-and-drop again). Render redeploys automatically
+in 2-3 minutes.
+
+CHANGING PASSWORDS
+------------------
+- Owner app -> Traders -> "New password" changes any trader's password live.
+- To change the starting passwords permanently, edit the  users  list in
+  seed.js on GitHub and let Render redeploy.
+- Owner -> Settings -> Reset puts everything, including passwords, back to seed.js.
+
+IF SOMETHING GOES WRONG
+-----------------------
+- Deploy fails with "Cannot find module": package.json or server.js did not upload.
+- Page loads but photos are missing: the public/img folder did not upload.
+- "Application failed to respond": Start Command must be exactly  node server.js
+- Slow first open: normal on the free plan, see "Keep it awake".
